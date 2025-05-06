@@ -42,6 +42,22 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
 
+        // ----------------collection------------------
+        const NewsCollection = client.db("K-Infonic-DB").collection('All-News')
+
+
+
+
+        // ----------------------------------------------------------------------------------------
+        //------all news ---------
+        // ----------------------------------------------------------------------------------------
+
+        // ---------------get all product----------------
+        app.get("/News", async (req, res) => {
+            const result = await NewsCollection.find().toArray();
+            res.send(result)
+        })
+
     }
     finally {
     }
