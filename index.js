@@ -52,11 +52,36 @@ async function run() {
         //------all news ---------
         // ----------------------------------------------------------------------------------------
 
-        // ---------------get all product----------------
+        // ---------------get all news----------------
         app.get("/News", async (req, res) => {
             const result = await NewsCollection.find().toArray();
             res.send(result)
         })
+
+        // ----------------------get news by id -----------------------------
+        app.get("/News/:id", async (req, res) => {
+            const id = req.params.id
+            const query = { _id: new ObjectId(id) }
+
+            const result = await NewsCollection.findOne(query)
+            res.send(result)
+        })
+
+        //-----------------update view count of article------------
+        app.put("/News/views/:id", async (req, res) => {
+            const id = req.params.id;
+            const { viewCount } = req.body;
+
+            try {
+                const result = await NewsCollection.updateOne(
+                    { _id: new ObjectId(id) },
+                    { $set: { viewCount } }
+                );
+                res.send(result);
+            } catch (err) {
+                res.status(500).send({ message: "Error updating views", error: err });
+            }
+        });
 
 
 
