@@ -44,6 +44,9 @@ async function run() {
 
         // ----------------collection------------------
         const NewsCollection = client.db("K-Infonic-DB").collection('All-News')
+        const PublisherCollection = client.db("K-Infonic-DB").collection('Publisher')
+        const UserCollection = client.db("K-Infonic-DB").collection('Users')
+        const ReviewsCollection = client.db("K-Infonic-DB").collection('Reviews')
 
 
 
@@ -83,8 +86,68 @@ async function run() {
             }
         });
 
+        //----------add article--------
+        app.post('/News', async (req, res) => {
+            const review = req.body
+            const result = await NewsCollection.insertOne(review)
+            res.send(result)
+        })
 
 
+        //--------------------------------------------------------------------
+        //-------------publisher----------------
+        //---------------------------------------------------------------------
+
+        // ---------------get all publishers----------------
+        app.get("/publishers", async (req, res) => {
+            const result = await PublisherCollection.find().toArray();
+            res.send(result)
+        })
+
+
+
+        // ----------------------------------------------------------------------------------------
+        //------Users---------
+        // ----------------------------------------------------------------------------------------
+
+        // -----------get all user---------------------------------
+        app.get("/Users", async (req, res) => {
+            const result = await UserCollection.find().toArray();
+            res.send(result)
+        })
+
+        //---------------------------------add users-------------------
+        app.post('/Users', async (req, res) => {
+            const user = req.body
+            const query = { email: user.email }
+            const exist = await UserCollection.findOne(query)
+
+            if (exist) {
+                return res.send({ massage: 'User Already exist', insertedId: null })
+            }
+
+            const result = await UserCollection.insertOne(user)
+            res.send(result)
+        })
+
+
+
+        //--------------------------------------------------------------------
+        //-------------Reviews----------------
+        //---------------------------------------------------------------------
+
+        // ---------------get all Review----------------
+        app.get("/reviews", async (req, res) => {
+            const result = await ReviewsCollection.find().toArray();
+            res.send(result)
+        })
+
+        //----------add review--------
+        app.post('/reviews', async (req, res) => {
+            const review = req.body
+            const result = await ReviewsCollection.insertOne(review)
+            res.send(result)
+        })
 
     }
     finally {
