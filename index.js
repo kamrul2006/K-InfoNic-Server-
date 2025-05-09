@@ -165,6 +165,21 @@ async function run() {
             res.send(result)
         })
 
+        //---------- DELETE Articles by id----------------
+        app.delete("/Reviews/:id", async (req, res) => {
+            const { id } = req.params;
+            try {
+                const result = await ReviewsCollection.deleteOne({ _id: new ObjectId(id) });
+                if (result.deletedCount === 1) {
+                    res.status(200).json({ message: "Review deleted successfully." });
+                } else {
+                    res.status(404).json({ message: "Review not found." });
+                }
+            } catch (err) {
+                console.error("Delete Error:", err);
+                res.status(500).json({ message: "Server error." });
+            }
+        });
 
     }
     finally {
