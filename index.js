@@ -146,6 +146,26 @@ async function run() {
             res.send(result)
         })
 
+        // PATCH route to update isSubscribed
+        app.patch("/Users/:id", async (req, res) => {
+            const userId = req.params.id;
+            const { isSubscribed } = req.body;
+
+            try {
+                const result = await UserCollection.updateOne(
+                    { _id: new ObjectId(userId) },
+                    { $set: { isSubscribed: isSubscribed } }
+                );
+
+                if (result.modifiedCount > 0) {
+                    res.send({ success: true, message: "Subscription updated." });
+                } else {
+                    res.status(404).send({ success: false, message: "User not found or already updated." });
+                }
+            } catch (error) {
+                res.status(500).send({ success: false, message: "Update failed.", error });
+            }
+        });
 
 
         //--------------------------------------------------------------------
