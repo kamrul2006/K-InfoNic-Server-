@@ -110,6 +110,49 @@ async function run() {
         });
 
 
+        // ------------- approve article---------------
+        app.patch('/News/approve/:id', async (req, res) => {
+            const id = req.params.id;
+            try {
+                const result = await NewsCollection.updateOne(
+                    { _id: new ObjectId(id) },
+                    { $set: { status: 'approved' } }
+                );
+                res.send(result);
+            } catch (error) {
+                res.status(500).send({ message: 'Failed to approve article' });
+            }
+        });
+
+        // -------------- make article premium--------------
+        app.patch('/News/premium/:id', async (req, res) => {
+            const id = req.params.id;
+            try {
+                const result = await NewsCollection.updateOne(
+                    { _id: new ObjectId(id) },
+                    { $set: { type: 'premium', isPremium: true } }
+                );
+                res.send(result);
+            } catch (error) {
+                res.status(500).send({ message: 'Failed to make premium' });
+            }
+        });
+
+        // ----------------- make article general-------------
+        app.patch('/News/general/:id', async (req, res) => {
+            const id = req.params.id;
+            try {
+                const result = await NewsCollection.updateOne(
+                    { _id: new ObjectId(id) },
+                    { $set: { type: 'general', isPremium: false } }
+                );
+                res.send(result);
+            } catch (error) {
+                res.status(500).send({ message: 'Failed to make general' });
+            }
+        });
+
+
         //--------------------------------------------------------------------
         //-------------publisher----------------
         //---------------------------------------------------------------------
@@ -176,7 +219,7 @@ async function run() {
             try {
                 const result = await UserCollection.updateOne(
                     { _id: new ObjectId(userId) },
-                    { $set: { role: "admin" } }
+                    { $set: { role: "user" } }
                 );
 
                 res.json(result);
