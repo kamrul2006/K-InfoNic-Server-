@@ -168,22 +168,22 @@ async function run() {
         });
 
         // ---------------------- remove admin ---------------------
-        // app.patch("/Users/remove-admin/:id", async (req, res) => {
-        //     const userId = req.params.id;
+        app.patch("/Users/remove-admin/:id", async (req, res) => {
+            const userId = req.params.id;
 
-        //     // console.log('xxgjh')
+            // console.log('xxgjh')
 
-        //     try {
-        //         const result = await UserCollection.updateOne(
-        //             { _id: new ObjectId(userId) },
-        //             { $set: { role: "admin" } }
-        //         );
+            try {
+                const result = await UserCollection.updateOne(
+                    { _id: new ObjectId(userId) },
+                    { $set: { role: "admin" } }
+                );
 
-        //         res.json(result);
-        //     } catch (err) {
-        //         res.status(500).json({ message: "Failed to update user role", error: err.message });
-        //     }
-        // });
+                res.json(result);
+            } catch (err) {
+                res.status(500).json({ message: "Failed to update user role", error: err.message });
+            }
+        });
 
         // ---------------------- make admin---------------------
         app.patch("/Users/admin/:id", async (req, res) => {
@@ -204,16 +204,16 @@ async function run() {
         });
 
         // //----------------- DELETE a user---------------
-        // app.delete("/Users/:id", async (req, res) => {
-        //     const userId = req.params.id;
+        app.delete("/Users/:id", async (req, res) => {
+            const userId = req.params.id;
 
-        //     try {
-        //         const result = await UserCollection.deleteOne({ _id: new ObjectId(userId) });
-        //         res.json(result);
-        //     } catch (err) {
-        //         res.status(500).json({ message: "Failed to delete user", error: err.message });
-        //     }
-        // });
+            try {
+                const result = await UserCollection.deleteOne({ _id: new ObjectId(userId) });
+                res.json(result);
+            } catch (err) {
+                res.status(500).json({ message: "Failed to delete user", error: err.message });
+            }
+        });
 
 
         //--------------------------------------------------------------------
