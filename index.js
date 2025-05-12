@@ -11,13 +11,14 @@ const port = process.env.PORT || 5000
 const app = express();
 
 
+
 // -----------middleware-----
 app.use(cors(
     {
         origin: ['http://localhost:5173',
             'http://localhost:5173',
-            // 'https://k-tech-ltd.web.app',
-            // 'https://k-tech-ltd.firebaseapp.com'
+            'https://k-infonic.web.app',
+            'https://k-infonic.firebaseapp.com'
         ],
         methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization'],
