@@ -146,7 +146,7 @@ async function run() {
             res.send(result)
         })
 
-        // PATCH route to update isSubscribed
+        // --------------------- update isSubscribed------------
         app.patch("/Users/:id", async (req, res) => {
             const userId = req.params.id;
             const { isSubscribed } = req.body;
@@ -167,6 +167,54 @@ async function run() {
             }
         });
 
+        // ---------------------- remove admin ---------------------
+        // app.patch("/Users/remove-admin/:id", async (req, res) => {
+        //     const userId = req.params.id;
+
+        //     // console.log('xxgjh')
+
+        //     try {
+        //         const result = await UserCollection.updateOne(
+        //             { _id: new ObjectId(userId) },
+        //             { $set: { role: "admin" } }
+        //         );
+
+        //         res.json(result);
+        //     } catch (err) {
+        //         res.status(500).json({ message: "Failed to update user role", error: err.message });
+        //     }
+        // });
+
+        // ---------------------- make admin---------------------
+        app.patch("/Users/admin/:id", async (req, res) => {
+            const userId = req.params.id;
+
+            // console.log('xxgjh')
+
+            try {
+                const result = await UserCollection.updateOne(
+                    { _id: new ObjectId(userId) },
+                    { $set: { role: "admin" } }
+                );
+
+                res.json(result);
+            } catch (err) {
+                res.status(500).json({ message: "Failed to update user role", error: err.message });
+            }
+        });
+
+        // //----------------- DELETE a user---------------
+        // app.delete("/Users/:id", async (req, res) => {
+        //     const userId = req.params.id;
+
+        //     try {
+        //         const result = await UserCollection.deleteOne({ _id: new ObjectId(userId) });
+        //         res.json(result);
+        //     } catch (err) {
+        //         res.status(500).json({ message: "Failed to delete user", error: err.message });
+        //     }
+        // });
+
 
         //--------------------------------------------------------------------
         //-------------Reviews----------------
@@ -185,7 +233,7 @@ async function run() {
             res.send(result)
         })
 
-        //---------- DELETE Articles by id----------------
+        //---------- DELETE review by id----------------
         app.delete("/Reviews/:id", async (req, res) => {
             const { id } = req.params;
             try {
