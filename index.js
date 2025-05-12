@@ -109,7 +109,6 @@ async function run() {
             }
         });
 
-
         // ------------- approve article---------------
         app.patch('/News/approve/:id', async (req, res) => {
             const id = req.params.id;
