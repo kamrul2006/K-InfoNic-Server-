@@ -1,11 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 
-// const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser')
 require('dotenv').config()
 
-// const stripe = require('stripe')(process.env.STRIPE_SECRET)
 const port = process.env.PORT || 5000
 
 const app = express();
@@ -15,10 +13,9 @@ const app = express();
 // -----------middleware-----
 app.use(cors(
     {
-        origin: ['http://localhost:5173',
-            'http://localhost:5173',
-            'https://k-infonic.web.app',
-            'https://k-infonic.firebaseapp.com'
+        origin: ['http://localhost:3000',
+            'http://localhost:3000',
+            'https://free-ps-bd-next.vercel.app',
         ],
         methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization'],
@@ -44,10 +41,9 @@ async function run() {
     try {
 
         // ----------------collection------------------
-        const NewsCollection = client.db("K-Infonic-DB").collection('All-News')
-        const PublisherCollection = client.db("K-Infonic-DB").collection('Publisher')
+        const NewsCollection = client.db("Free-Palestine-BD-db").collection('All-News')
+        const BoycottCollection = client.db("Free-Palestine-BD-db").collection('Publisher')
         const UserCollection = client.db("K-Infonic-DB").collection('Users')
-        const ReviewsCollection = client.db("K-Infonic-DB").collection('Reviews')
 
 
 
