@@ -1,11 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 
-// const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser')
 require('dotenv').config()
 
-// const stripe = require('stripe')(process.env.STRIPE_SECRET)
 const port = process.env.PORT || 5000
 
 const app = express();
