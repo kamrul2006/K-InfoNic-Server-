@@ -15,8 +15,8 @@ app.use(cors(
     {
         origin: ['http://localhost:5173',
             'http://localhost:5173',
-            'https://k-infonic.web.app',
-            'https://k-infonic.firebaseapp.com'
+            // 'https://S-Bangla2.0.web.app',
+            // 'https://S-Bangla2.0.firebaseapp.com'
         ],
         methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization'],
@@ -42,40 +42,38 @@ async function run() {
     try {
 
         // ----------------collection------------------
-        const NewsCollection = client.db("K-Infonic-DB").collection('All-News')
-        const PublisherCollection = client.db("K-Infonic-DB").collection('Publisher')
-        const UserCollection = client.db("K-Infonic-DB").collection('Users')
-        const ReviewsCollection = client.db("K-Infonic-DB").collection('Reviews')
-
-
+        const BlogCollection = client.db("S-Bangla-2-0-DB").collection('AllBlogs')
+        const ShohidCollection = client.db("S-Bangla-2-0-DB").collection('ShohidList')
+        const UserCollection = client.db("S-Bangla-2-0-DB").collection('UsersList')
+        const ReviewsCollection = client.db("S-Bangla-2-0-DB").collection('ReviewsList')
 
 
         // ----------------------------------------------------------------------------------------
         //------all news ---------
         // ----------------------------------------------------------------------------------------
 
-        // ---------------get all news----------------
-        app.get("/News", async (req, res) => {
-            const result = await NewsCollection.find().toArray();
+        // ---------------get all Blogs----------------
+        app.get("/Blogs", async (req, res) => {
+            const result = await BlogCollection.find().toArray();
             res.send(result)
         })
 
         // ----------------------get news by id -----------------------------
-        app.get("/News/:id", async (req, res) => {
+        app.get("/Blogs/:id", async (req, res) => {
             const id = req.params.id
             const query = { _id: new ObjectId(id) }
 
-            const result = await NewsCollection.findOne(query)
+            const result = await BlogCollection.findOne(query)
             res.send(result)
         })
 
         //-----------------update view count of article------------
-        app.put("/News/views/:id", async (req, res) => {
+        app.put("/Blogs/views/:id", async (req, res) => {
             const id = req.params.id;
             const { viewCount } = req.body;
 
             try {
-                const result = await NewsCollection.updateOne(
+                const result = await BlogCollection.updateOne(
                     { _id: new ObjectId(id) },
                     { $set: { viewCount } }
                 );
@@ -86,17 +84,17 @@ async function run() {
         });
 
         //----------add article--------
-        app.post('/News', async (req, res) => {
+        app.post('/Blogs', async (req, res) => {
             const review = req.body
-            const result = await NewsCollection.insertOne(review)
+            const result = await BlogCollection.insertOne(review)
             res.send(result)
         })
 
         //---------- DELETE Articles by id----------------
-        app.delete("/News/:id", async (req, res) => {
+        app.delete("/Blogs/:id", async (req, res) => {
             const { id } = req.params;
             try {
-                const result = await NewsCollection.deleteOne({ _id: new ObjectId(id) });
+                const result = await BlogCollection.deleteOne({ _id: new ObjectId(id) });
                 if (result.deletedCount === 1) {
                     res.status(200).json({ message: "Article deleted successfully." });
                 } else {
@@ -109,10 +107,10 @@ async function run() {
         });
 
         // ------------- approve article---------------
-        app.patch('/News/approve/:id', async (req, res) => {
+        app.patch('/Blogs/approve/:id', async (req, res) => {
             const id = req.params.id;
             try {
-                const result = await NewsCollection.updateOne(
+                const result = await BlogCollection.updateOne(
                     { _id: new ObjectId(id) },
                     { $set: { status: 'approved' } }
                 );
@@ -123,10 +121,10 @@ async function run() {
         });
 
         // -------------- make article premium--------------
-        app.patch('/News/premium/:id', async (req, res) => {
+        app.patch('/Blogs/premium/:id', async (req, res) => {
             const id = req.params.id;
             try {
-                const result = await NewsCollection.updateOne(
+                const result = await BlogCollection.updateOne(
                     { _id: new ObjectId(id) },
                     { $set: { type: 'premium', isPremium: true } }
                 );
@@ -137,10 +135,10 @@ async function run() {
         });
 
         // ----------------- make article general-------------
-        app.patch('/News/general/:id', async (req, res) => {
+        app.patch('/Blogs/general/:id', async (req, res) => {
             const id = req.params.id;
             try {
-                const result = await NewsCollection.updateOne(
+                const result = await BlogCollection.updateOne(
                     { _id: new ObjectId(id) },
                     { $set: { type: 'general', isPremium: false } }
                 );
@@ -156,8 +154,8 @@ async function run() {
         //---------------------------------------------------------------------
 
         // ---------------get all publishers----------------
-        app.get("/publishers", async (req, res) => {
-            const result = await PublisherCollection.find().toArray();
+        app.get("/Shohid", async (req, res) => {
+            const result = await ShohidCollection.find().toArray();
             res.send(result)
         })
 
@@ -299,7 +297,7 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-    res.send('The true news are here')
+    res.send('Shadin Bangla 2.0 server is running.......')
 })
 
 app.listen(port)
